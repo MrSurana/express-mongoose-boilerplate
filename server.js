@@ -1,10 +1,9 @@
-require('dotenv').config();
-
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 
 const indexRouter = require('./src/routes');
+const config = require('./config');
 
 const app = express();
 
@@ -18,13 +17,13 @@ app.use("/", indexRouter);
 
 // Express error handler
 app.use((err, req, res, next) => {
-    if (process.env.NODE_ENV === 'development') console.error(err.stack);
+    if (config.env === 'development') console.error(err.stack);
     res.status(400).send(err.message);
 })
 
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(config.mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -42,7 +41,6 @@ db.once('open', function () {
 });
 
 // Start express server
-const port = process.env.APP_PORT;
-app.listen(port, () => {
-    console.log(`Express server listening on http://localhost:${port}`);
+app.listen(config.port, () => {
+    console.log(`Express server listening on http://localhost:${config.port}`);
 });
