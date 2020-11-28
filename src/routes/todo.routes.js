@@ -11,7 +11,7 @@ router.get("/", async (req, res, next) => {
         const todos = await TodoService.list();
         res.status(200).json(todos);
     } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
+        next(err);
     }
 });
 
@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
         const todo = await TodoService.create({ text });
         res.status(200).json(todo);
     } catch (err) {
-        res.status(400).send(`Error: ${err.message}`);
+        next(err);
     }
 });
 
