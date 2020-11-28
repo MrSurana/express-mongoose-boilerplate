@@ -18,7 +18,7 @@ app.use("/", indexRouter);
 
 // Express error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    if (process.env.NODE_ENV === 'development') console.error(err.stack);
     res.status(400).send(err.message);
 })
 

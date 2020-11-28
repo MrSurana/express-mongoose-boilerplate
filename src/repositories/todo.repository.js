@@ -10,6 +10,21 @@ class TodoRepository {
         const todo = await Todo.create({ text });
         return todo;
     }
+
+    static async getById(id) {
+        const todo = await Todo.findById(id);
+        return todo;
+    }
+
+    static async update(id, { text }) {
+        const todo = await Todo.findByIdAndUpdate(id, { text }, { new: true });
+        return todo;
+    }
+
+    static async delete(id) {
+        const todo = await Todo.findByIdAndDelete(id);
+        return todo;
+    }
 }
 
 module.exports = TodoRepository;
