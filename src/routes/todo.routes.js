@@ -1,9 +1,32 @@
 const express = require('express');
 const router = express.Router();
 
-const TodoController = require('../controllers/todo.controller');
+const TodoService = require('../services/todo.service');
 
-router.get("/", TodoController.index);
-router.post("/", TodoController.create);
+/**
+ * List all todos
+ */
+router.get("/", async (req, res, next) => {
+    try {
+        const todos = await TodoService.list();
+        res.status(200).json(todos);
+    } catch (err) {
+        res.status(400).send(`Error: ${err.message}`);
+    }
+});
+
+/**
+ * Create a new todo
+ */
+router.post("/", async (req, res, next) => {
+    const { text } = req.body;
+
+    try {
+        const todo = await TodoService.create({ text });
+        res.status(200).json(todo);
+    } catch (err) {
+        res.status(400).send(`Error: ${err.message}`);
+    }
+});
 
 module.exports = router;
