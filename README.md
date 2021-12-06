@@ -17,3 +17,9 @@
    ```bash
    $ npm start
    ```
+
+4. Run tests
+
+   ```bash
+   $ npm test
+   ```
