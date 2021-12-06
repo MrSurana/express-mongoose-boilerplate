@@ -55,6 +55,10 @@ TodoController.show = async (req, res, next) => {
 
     res.status(200).json(todo);
   } catch (err) {
+    if (err.name == "CastError") {
+      err.message = "'id' param is an invalid todo id";
+    }
+
     next(err);
   }
 };
@@ -78,6 +82,10 @@ TodoController.update = async (req, res, next) => {
 
     res.status(200).json(todo);
   } catch (err) {
+    if (err.name == "CastError") {
+      err.message = "'id' param is an invalid todo id";
+    }
+
     next(err);
   }
 };
@@ -98,6 +106,10 @@ TodoController.delete = async (req, res, next) => {
 
     res.status(200).json(todo);
   } catch (err) {
+    if (err.name == "CastError") {
+      err.message = "'id' param is an invalid todo id";
+    }
+
     next(err);
   }
 };
