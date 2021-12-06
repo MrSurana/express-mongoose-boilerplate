@@ -15,8 +15,6 @@ describe("Todos", function () {
 
       expect(res).to.have.status(200);
       expect(res.body).to.be.an("array");
-
-      todo = res.body[0];
     });
   });
 
