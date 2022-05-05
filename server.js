@@ -38,7 +38,7 @@ db.on("error", (err) => {
 });
 
 db.once("open", function () {
-  console.error("Connected to MongoDB!");
+  console.log("Connected to MongoDB!");
 });
 
 // Start express server
