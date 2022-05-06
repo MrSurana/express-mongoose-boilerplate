@@ -7,7 +7,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test jest --watchAll"
+    "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles"
   },
   "dependencies": {
     "express": "^4.17.2",
