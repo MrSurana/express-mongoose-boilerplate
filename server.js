@@ -29,17 +29,8 @@ mongoose
     useFindAndModify: false,
     useCreateIndex: true,
   })
-  .catch((err) => null);
-
-const db = mongoose.connection;
-
-db.on("error", (err) => {
-  console.error(err.stack);
-});
-
-db.once("open", function () {
-  console.log("Connected to MongoDB!");
-});
+  .then(() => console.log("Connected to MongoDB!"))
+  .catch((err) => console.error(err));
 
 // Start express server
 app.listen(config.port, () => {
