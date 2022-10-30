@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  app:
+    build: .
+    container_name: express-mongoose-boilerplate
+    ports:
+      - 3000:3000
+    stop_signal: SIGINT
