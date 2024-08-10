@@ -1,9 +1,9 @@
 ## Development
 
-1. Copy `config.example.js` to `config.js` and update configuration based on environment.
+1. Copy `.env.example` to `.env` and update configuration based on environment.
 
    ```bash
-   $ cp config.example.js config.js
+   $ cp .env.example .env
    ```
 
 2. Install package dependencies
