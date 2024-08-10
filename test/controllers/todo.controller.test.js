@@ -25,6 +25,13 @@ describe("Todos", function () {
 
       todo = res.body;
     });
+
+    it("should return 400 if text field not present", async function () {
+      const res = await request(app).post(`/todos`).send({});
+
+      expect(res.status).toEqual(400);
+      expect(res.text).toEqual("'text' field is required");
+    });
   });
 
   describe("GET /todos/:id", function () {
@@ -36,11 +43,18 @@ describe("Todos", function () {
       expect(res.body.id).toEqual(todo.id);
     });
 
-    it("should not return non-existent todo details", async function () {
-      const res = await request(app).get(`/todos/abcd123`);
+    it("should return 400 if todo does not exist", async function () {
+      const res = await request(app).get(`/todos/66b77b57aaedb3a2427029d4`);
 
       expect(res.status).toEqual(400);
-      expect(res.body).toEqual("'id' param is an invalid todo id");
+      expect(res.text).toEqual("Todo not found!");
+    });
+
+    it("should return 400 if id is incorrect", async function () {
+      const res = await request(app).get(`/todos/test123`);
+
+      expect(res.status).toEqual(400);
+      expect(res.text).toEqual("Invalid param type");
     });
   });
 
@@ -58,13 +72,20 @@ describe("Todos", function () {
       todo = res.body;
     });
 
-    it("should return 400 if id is invalid", async function () {
+    it("should return 400 if text field not present", async function () {
+      const res = await request(app).put(`/todos/${todo.id}`).send({});
+
+      expect(res.status).toEqual(400);
+      expect(res.text).toEqual("'text' field is required");
+    });
+
+    it("should return 400 if todo does not exist", async function () {
       const res = await request(app)
-        .put("/todos/123")
+        .put("/todos/66b77b57aaedb3a2427029d4")
         .send({ text: "Updated Todo" });
 
       expect(res.status).toEqual(400);
-      expect(res.body).toEqual("'id' param is an invalid todo id");
+      expect(res.text).toEqual("Todo not found!");
     });
   });
 
@@ -77,6 +98,13 @@ describe("Todos", function () {
       expect(res.body.id).toEqual(todo.id);
 
       todo = null;
+    });
+
+    it("should return 400 if todo does not exist", async function () {
+      const res = await request(app).delete("/todos/66b77b57aaedb3a2427029d4");
+
+      expect(res.status).toEqual(400);
+      expect(res.text).toEqual("Todo not found!");
     });
   });
 });
