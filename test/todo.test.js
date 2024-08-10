@@ -1,20 +1,15 @@
-const chai = require("chai");
-const chaiHttp = require("chai-http");
-const { app } = require("../server");
-
-const { expect } = chai;
-
-chai.use(chaiHttp);
+const { app, server, mongoose } = require("../server");
+const request = require("supertest");
 
 describe("Todos", function () {
   let todo = null;
 
   describe("GET /todos", function () {
     it("should list all todos", async function () {
-      const res = await chai.request(app).get("/todos");
+      const res = await request(app).get("/todos");
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an("array");
+      expect(res.statusCode).toEqual(200);
+      expect(Array.isArray(res.body)).toEqual(true);
     });
   });
 
@@ -22,11 +17,11 @@ describe("Todos", function () {
     it("should create todo", async function () {
       const text = "Add exception handler";
 
-      const res = await chai.request(app).post(`/todos`).send({ text });
+      const res = await request(app).post(`/todos`).send({ text });
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an("object");
-      expect(res.body.text).to.be.equal(text);
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual("object");
+      expect(res.body.text).toEqual(text);
 
       todo = res.body;
     });
@@ -34,18 +29,18 @@ describe("Todos", function () {
 
   describe("GET /todos/:id", function () {
     it("should return todo details", async function () {
-      const res = await chai.request(app).get(`/todos/${todo.id}`);
+      const res = await request(app).get(`/todos/${todo.id}`);
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an("object");
-      expect(res.body.id).to.be.equal(todo.id);
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual("object");
+      expect(res.body.id).toEqual(todo.id);
     });
 
     it("should not return non-existent todo details", async function () {
-      const res = await chai.request(app).get(`/todos/abcd123`);
+      const res = await request(app).get(`/todos/abcd123`);
 
-      expect(res).to.have.status(400);
-      expect(res.type).to.be.equal("text/html");
+      expect(res.statusCode).toEqual(400);
+      expect(res.type).toEqual("text/html");
     });
   });
 
@@ -53,15 +48,12 @@ describe("Todos", function () {
     it("should update todo", async function () {
       const text = "Add global exception handler";
 
-      const res = await chai
-        .request(app)
-        .post(`/todos/${todo.id}`)
-        .send({ text });
+      const res = await request(app).post(`/todos/${todo.id}`).send({ text });
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an("object");
-      expect(res.body.id).to.be.equal(todo.id);
-      expect(res.body.text).to.be.equal(text);
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual("object");
+      expect(res.body.id).toEqual(todo.id);
+      expect(res.body.text).toEqual(text);
 
       todo = res.body;
     });
@@ -69,13 +61,20 @@ describe("Todos", function () {
 
   describe("DELETE /todos/:id", function () {
     it("should delete todo", async function () {
-      const res = await chai.request(app).delete(`/todos/${todo.id}`);
+      const res = await request(app).delete(`/todos/${todo.id}`);
 
-      expect(res).to.have.status(200);
-      expect(res.body).to.be.an("object");
-      expect(res.body.id).to.be.equal(todo.id);
+      expect(res.statusCode).toEqual(200);
+      expect(typeof res.body).toEqual("object");
+      expect(res.body.id).toEqual(todo.id);
+
+      console.log(todo);
 
       todo = null;
     });
+  });
+
+  afterAll(() => {
+    mongoose.connection.close();
+    server.close();
   });
 });
