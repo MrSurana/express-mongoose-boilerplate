@@ -7,18 +7,23 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "cross-env NODE_ENV=test jest --coverage --detectOpenHandles"
+    "test": "jest --coverage --detectOpenHandles"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.17.2",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "@types/jest": "^27.5.0",
-    "cross-env": "^7.0.3",
     "jest": "^28.0.3",
     "nodemon": "^2.0.15",
     "supertest": "^6.2.3"
+  },
+  "jest": {
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
   }
 }
