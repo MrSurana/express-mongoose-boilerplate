@@ -12,13 +12,20 @@
    $ npm install
    ```
 
-3. Start server
+3. (Project IDX) Start database
+
+   ```bash
+   $ docker compose up
+   ```
+
+
+4. Start server
 
    ```bash
    $ npm start
    ```
 
-4. Run tests
+5. Run tests
 
    ```bash
    $ npm test

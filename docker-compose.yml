@@ -1,13 +1,14 @@
 version: '3.9'
 
 services:
-  app:
-    build: .
-    container_name: express-mongoose-boilerplate
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    restart: unless-stopped
     ports:
-      - 3000:3000
+      - 27017:27017
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    stop_signal: SIGINT
-    command: ["npm", "start"]
+      - ./.docker/volumes/mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
