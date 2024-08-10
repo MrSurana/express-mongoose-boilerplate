@@ -29,9 +29,9 @@ TodoController.index = async (req, res, next) => {
 TodoController.create = async (req, res, next) => {
   const { text } = req.body;
 
-  if (!text) throw new Error("'text' field is required");
-
   try {
+    if (!text) throw new Error("'text' field is required");
+
     const todo = await Todo.create({ text });
     res.status(200).json(todo);
   } catch (err) {
