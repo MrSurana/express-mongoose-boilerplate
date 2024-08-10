@@ -7,7 +7,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "jest --coverage --detectOpenHandles"
+    "test": "jest --coverage --detectOpenHandles",
+    "test:watch": "npm run test -- --watch"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -23,7 +24,10 @@
   },
   "jest": {
     "setupFiles": [
-      "./jest.setup.js"
+      "./test/jest.setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./test/jest.setup-after-env.js"
     ]
   }
 }

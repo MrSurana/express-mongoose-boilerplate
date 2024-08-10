@@ -19,7 +19,7 @@ app.use("/", indexRouter);
 // Express error handler
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === "development") console.error(err.stack);
-  res.status(400).send(err.message);
+  res.status(400).json(err.message);
 });
 
 // MongoDB connection
