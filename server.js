@@ -33,8 +33,8 @@ mongoose
   .catch((err) => console.error(err));
 
 // Start express server
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Express server listening on http://localhost:${config.port}`);
 });
 
-module.exports = { app };
+module.exports = { app, server, mongoose };
